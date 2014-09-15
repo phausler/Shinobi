@@ -169,14 +169,13 @@ private:
     ninja::ManifestParser parser;
     FileReader reader;
     ninja::RealDiskInterface diskInterface;
-    std::string base;
     
     std::string nodePath(std::string path) const
     {
         if (path[0] == '/') {
             return path;
         } else {
-            std::string absolute = base + "/" + path;
+            std::string absolute = parser.GetBuildDirectory() + "/" + path;
             char rpath[PATH_MAX];
             realpath(absolute.c_str(), rpath);
             return std::string(rpath);
@@ -243,7 +242,7 @@ private:
                 if (nodePath(input) == FilePath.str())
                 {
                     clang::tooling::CompileCommand command;
-                    command.Directory = base;
+                    command.Directory = edge->GetWorkingDirectory();
                     
                     const ninja::EvalString *commandStr = edge->rule_->GetBinding("command");
                     
@@ -339,8 +338,6 @@ public:
     
     void load(NSString *path)
     {
-        base = ::dirname((char *)path.UTF8String);
-//        chdir(base.c_str()); // include paths are currently relative: TOOD - fix this in ninja itself
         parser.Load(std::string(path.UTF8String), nullptr);
     }
     
@@ -408,7 +405,7 @@ public:
             builder.AddTarget(node, &err);
         }
         
-        chdir(base.c_str());
+
         std::string log_path = ".ninja_log";
         if (!log.Load(log_path, &err))
         {

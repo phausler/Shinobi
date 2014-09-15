@@ -44,6 +44,8 @@ struct ManifestParser {
     return Parse("input", input, err);
   }
 
+  string GetBuildDirectory() const;
+
 private:
   /// Parse a file, given its contents as a string.
   bool Parse(const string& filename, const string& input, string* err);
