@@ -21,6 +21,7 @@
 		5B0B3C0219C2854E002D30A1 /* ProjectEditorGutter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */; };
 		5B3B5CAA19C3B59300674E6E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B3B5CA919C3B59300674E6E /* libz.dylib */; };
 		5B3B5CAC19C3B59B00674E6E /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B3B5CAB19C3B59B00674E6E /* libncurses.dylib */; };
+		5B821A1519C7647200A6BD25 /* BorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B821A1419C7647200A6BD25 /* BorderView.m */; };
 		5BCC82C219C7299C00B82BE2 /* ProjectDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */; };
 		5BE90ED419C41339003CAB8C /* libclang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5419C41339003CAB8C /* libclang.a */; };
 		5BE90ED519C41339003CAB8C /* libclangAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5519C41339003CAB8C /* libclangAnalysis.a */; };
@@ -215,6 +216,8 @@
 		5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectEditorGutter.m; sourceTree = "<group>"; };
 		5B3B5CA919C3B59300674E6E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5B3B5CAB19C3B59B00674E6E /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = usr/lib/libncurses.dylib; sourceTree = SDKROOT; };
+		5B821A1319C7647200A6BD25 /* BorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorderView.h; sourceTree = "<group>"; };
+		5B821A1419C7647200A6BD25 /* BorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderView.m; sourceTree = "<group>"; };
 		5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectDocument.xib; sourceTree = "<group>"; };
 		5BE90E5419C41339003CAB8C /* libclang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclang.a; path = lib/libclang.a; sourceTree = "<group>"; };
 		5BE90E5519C41339003CAB8C /* libclangAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclangAnalysis.a; path = lib/libclangAnalysis.a; sourceTree = "<group>"; };
@@ -536,6 +539,8 @@
 				5B0B3BFE19C259F6002D30A1 /* ProjectEditor.m */,
 				5B0B3C0019C2854E002D30A1 /* ProjectEditorGutter.h */,
 				5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */,
+				5B821A1319C7647200A6BD25 /* BorderView.h */,
+				5B821A1419C7647200A6BD25 /* BorderView.m */,
 				5B0B3BC419C1F207002D30A1 /* Images.xcassets */,
 				5B0B3BC619C1F207002D30A1 /* MainMenu.xib */,
 				5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */,
@@ -813,6 +818,7 @@
 			files = (
 				5B0B3BFF19C259F6002D30A1 /* ProjectEditor.m in Sources */,
 				5B0B3BED19C1F8FC002D30A1 /* NinjaNode.mm in Sources */,
+				5B821A1519C7647200A6BD25 /* BorderView.m in Sources */,
 				5B0B3BFC19C226B7002D30A1 /* ProjectDocument.m in Sources */,
 				5B0B3BF019C1FD32002D30A1 /* ProjectDirectory.m in Sources */,
 				5B0B3BE819C1F36D002D30A1 /* NinjaProject.mm in Sources */,
