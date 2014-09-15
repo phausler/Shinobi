@@ -34,7 +34,7 @@ struct ManifestParser {
     virtual bool ReadFile(const string& path, string* content, string* err) = 0;
   };
 
-  ManifestParser(State* state, FileReader* file_reader);
+  ManifestParser(State* state, FileReader* file_reader, ManifestParser *parent = NULL);
 
   /// Load and parse a file.
   bool Load(const string& filename, string* err, Lexer* parent=NULL);
@@ -66,6 +66,8 @@ private:
   BindingEnv* env_;
   FileReader* file_reader_;
   Lexer lexer_;
+  string path_;
+  ManifestParser *parent_;
 };
 
 }; /*namespace ninja*/

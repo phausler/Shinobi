@@ -340,7 +340,7 @@ public:
     void load(NSString *path)
     {
         base = ::dirname((char *)path.UTF8String);
-        chdir(base.c_str()); // include paths are currently relative: TOOD - fix this in ninja itself
+//        chdir(base.c_str()); // include paths are currently relative: TOOD - fix this in ninja itself
         parser.Load(std::string(path.UTF8String), nullptr);
     }
     
