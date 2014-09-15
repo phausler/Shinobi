@@ -466,6 +466,11 @@ public:
     return nil;
 }
 
+- (NSString *)absolutePath
+{
+    return _path;
+}
+
 - (NSString *)path
 {
     return _path;
