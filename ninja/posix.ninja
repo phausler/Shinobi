@@ -1,0 +1,17 @@
+rule Touch
+    command = touch -c $out
+    description = Touch $out
+
+rule CompileC
+    command = clang -MMD -MT $out -MF $out.d $cflags -c $in -o $out
+    description = Compile $out
+    depfile = $out.d
+    deps = gcc
+
+rule Ld
+    command = clang++ $ldflags -o $out $in
+    description = Link $out
+
+rule CopyFiles
+    command = rsync -r --exclude .DS_Store --exclude CVS --exclude .svn --exclude .git --exclude .hg --copy-links $in `dirname $out`
+    description = Copy $out

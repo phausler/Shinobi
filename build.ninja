@@ -1,0 +1,73 @@
+include ninja/mac.ninja
+
+project_cflags = -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fobjc-arc -fmodules -fmodules-cache-path=build/module_cache -fmodules-prune-interval=86400 -fmodules-prune-after=345600 -Wnon-modular-include-in-framework-module -Werror=non-modular-include-in-framework-module -Wno-trigraphs -fno-rtti -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Wunreachable-code -Wno-implicit-atomic-properties -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wduplicate-method-match -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-selector -Wno-strict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -Wno-c++11-extensions -DDEBUG=1 -D__STDC_LIMIT_MACROS=1 -D__STDC_CONSTANT_MACROS=1 -DOBJC_OLD_DISPATCH_PROTOTYPES=0 -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -Winvalid-offsetof -g -fvisibility-inlines-hidden -Wno-sign-conversion -Iinclude
+
+project_cxxflags = $project_cflags -std=gnu++11 -stdlib=libc++
+
+build build/objects/Shinobi/AppDelegate.o: CompileC Shinobi/AppDelegate.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/main.o: CompileC Shinobi/main.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/NinjaNode.o: CompileC Shinobi/NinjaNode.mm
+    cflags = $project_cxxflags -x objective-c++
+build build/objects/Shinobi/NinjaProject.o: CompileC Shinobi/NinjaProject.mm
+    cflags = $project_cxxflags -x objective-c++
+build build/objects/Shinobi/ProjectController.o: CompileC Shinobi/ProjectController.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/ProjectDirectory.o: CompileC Shinobi/ProjectDirectory.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/ProjectEditor.o: CompileC Shinobi/ProjectEditor.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/ProjectEditorGutter.o: CompileC Shinobi/ProjectEditorGutter.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/ProjectItem.o: CompileC Shinobi/ProjectItem.m
+    cflags = $project_cflags -x objective-c
+
+build build/Shinobi.app/Contents/MacOS/Shinobi: Ld build/objects/Shinobi/AppDelegate.o $
+                                                   build/objects/Shinobi/main.o $
+                                                   build/objects/Shinobi/NinjaNode.o $
+                                                   build/objects/Shinobi/NinjaProject.o $
+                                                   build/objects/Shinobi/ProjectController.o $
+                                                   build/objects/Shinobi/ProjectDirectory.o $
+                                                   build/objects/Shinobi/ProjectEditor.o $
+                                                   build/objects/Shinobi/ProjectEditorGutter.o $
+                                                   build/objects/Shinobi/ProjectItem.o
+    ldflags = -arch x86_64 -Llib -Xlinker -rpath -Xlinker @executable_path/../Frameworks -fobjc-arc -fobjc-link-runtime -stdlib=libc++ -lLLVMCodeGen -lLLVMOption -lclangSerialization -lclangAST -lLLVMDebugInfo -lclangStaticAnalyzerFrontend -lclangRewrite -lclangRewriteFrontend -lLLVMARMInfo -lLLVMX86Utils -lLLVMSparcAsmPrinter -lLLVMSystemZDisassembler -lLLVMXCoreAsmPrinter -lclangASTMatchers -lLLVMRuntimeDyld -lLLVMBitWriter -lclangIndex -lLLVMX86Desc -lclangStaticAnalyzerCore -lLLVMAsmParser -lclangCodeGen -lLLVMAArch64Utils -lLLVMAArch64AsmPrinter -lLLVMSparcDisassembler -lLLVMR600CodeGen -lLLVMNVPTXDesc -lLLVMX86AsmPrinter -lLLVMSystemZInfo -lLLVMScalarOpts -lLLVMMCParser -lLLVMHexagonAsmPrinter -lLLVMObjCARCOpts -lLLVMSystemZCodeGen -lLLVMXCoreInfo -lninja -lLLVMProfileData -lLLVMAArch64Info -lclangEdit -lLLVMAArch64Desc -lLLVMSparcCodeGen -lLLVMMipsDisassembler -lLLVMMSP430AsmPrinter -lLLVMSparcAsmParser -lLLVMAnalysis -lclangStaticAnalyzerCheckers -lLLVMAArch64Disassembler -lLLVMHexagonInfo -lLLVMTransformUtils -lLLVMX86AsmParser -lLLVMMipsAsmPrinter -lLLVMX86Info -lclang -lclangAnalysis -lLLVMNVPTXAsmPrinter -lLLVMMSP430Desc -lLLVMARMCodeGen -lLLVMPowerPCDisassembler -lLLVMMipsAsmParser -lLLVMPowerPCCodeGen -lLLVMR600Info -lLLVMMipsInfo -lLLVMJIT -lLLVMPowerPCDesc -lclangSema -lLLVMSelectionDAG -lclangFrontendTool -lLLVMAArch64AsmParser -lclangDriver -lLLVMR600AsmPrinter -lclangBasic -lLLVMTarget -lLLVMARMAsmPrinter -lLLVMX86Disassembler -lLLVMInterpreter -lLLVMSparcDesc -lclangARCMigrate -lLLVMSystemZAsmPrinter -lclangFrontend -lLLVMARMDesc -lLLVMMSP430CodeGen -lLLVMPowerPCAsmParser -lLLVMVectorize -lLLVMMSP430Info -lncurses -lclangLex -lLLVMXCoreDesc -lLLVMBitReader -lLLVMX86CodeGen -lLLVMMC -lLLVMAsmPrinter -lLLVMSparcInfo -lclangDynamicASTMatchers -lLLVMXCoreDisassembler -lclangParse -lclangFormat -lLLVMARMDisassembler -lLLVMHexagonCodeGen -lLLVMPowerPCInfo -lLLVMNVPTXCodeGen -lLLVMSupport -lLLVMLinker -lLLVMPowerPCAsmPrinter -lLLVMInstrumentation -lLLVMCore -lLLVMExecutionEngine -lLLVMipa -lLLVMNVPTXInfo -lLLVMTableGen -lLLVMAArch64CodeGen -lLLVMipo -lLLVMIRReader -lLLVMSystemZAsmParser -lLLVMMipsCodeGen -lLLVMObject -lLLVMXCoreCodeGen -lLLVMMCAnalysis -lLLVMMipsDesc -lLLVMMCDisassembler -lLLVMInstCombine -lclangTooling -lLLVMCppBackendCodeGen -lz -lLLVMR600Desc -lLLVMHexagonDesc -lLLVMLineEditor -lLLVMARMAsmParser -lLLVMMCJIT -lLLVMSystemZDesc -lLLVMCppBackendInfo
+
+build build/Shinobi.app/Contents/Resources/Base.lproj/MainMenu.nib: CompileXIB Shinobi/Base.lproj/MainMenu.xib
+    module = Shinobi
+    plist = build/xib/MainMenu-PartialInfo.plist
+build build/Shinobi.app/Contents/Resources: CompileAssetCatalog Shinobi/Images.xcassets
+    platform = macosx
+    device = mac
+    plist = build/assets/assetcatalog_generated_info.plist
+    deps_info = build/assets/assetcatalog_dependencies.txt
+
+build build/Shinobi.app/Contents/Info.plist: ProcessInfoPlistFile Shinobi/Info.plist
+    executable = Shinobi
+    product = Shinobi
+    target = ""
+build build/Shinobi.app/Contents/lib/clang: CopyFiles lib/clang
+build build/Shinobi.app/Contents/include/c++: CopyFiles c++
+build build/Shinobi.app: Touch
+
+
+
+build Shinobi: phony build/objects/Shinobi/AppDelegate.o $
+                     build/objects/Shinobi/main.o $
+                     build/objects/Shinobi/NinjaNode.o $
+                     build/objects/Shinobi/NinjaProject.o $
+                     build/objects/Shinobi/ProjectController.o $
+                     build/objects/Shinobi/ProjectDirectory.o $
+                     build/objects/Shinobi/ProjectEditor.o $
+                     build/objects/Shinobi/ProjectEditorGutter.o $
+                     build/objects/Shinobi/ProjectItem.o $
+                     build/Shinobi.app/Contents/MacOS/Shinobi $
+                     build/Shinobi.app/Contents/Resources/Base.lproj/MainMenu.nib $
+                     build/Shinobi.app/Contents/Resources $
+                     build/Shinobi.app/Contents/Info.plist $
+                     build/Shinobi.app/Contents/lib/clang $
+                     build/Shinobi.app/Contents/include/c++ $
+                     build/Shinobi.app
+
+default Shinobi

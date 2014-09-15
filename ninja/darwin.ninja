@@ -1,0 +1,17 @@
+include ninja/posix.ninja
+
+rule CompileXIB
+    command = xcrun ibtool --errors --warnings --notices --module $module --minimum-deployment-target "" --output-partial-info-plist $plist --auto-activate-custom-fonts --output-format human-readable-text --compile $out $in
+    description = Compile XIB file $in
+
+rule CompileAssetCatalog
+    command = xcrun actool --output-format human-readable-text --notices --warnings --export-dependency-info $deps_info --output-partial-info-plist $plist --app-icon AppIcon --platform $platform --minimum-deployment-target "" --target-device $device --compile $out $in
+    description = Compile asset catalog $in
+
+rule CodeSign
+    command = codesign --force --sign $key $out
+    description = Sign $out
+
+rule ProcessInfoPlistFile
+    command = ninja/infoPlistUtility -e $executable -p $product -t $target $in $out
+    description = Process Info.plist $in
