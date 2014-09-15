@@ -50,14 +50,4 @@
     [_children addObject:item];
 }
 
-- (ProjectItem *)parent
-{
-    return _parent;
-}
-
-- (void)setParent:(ProjectItem *)parent
-{
-    _parent = parent;
-}
-
 @end

@@ -9,7 +9,9 @@
 #import "ProjectItem.h"
 #import "NinjaProject.h"
 
-@implementation ProjectItem
+@implementation ProjectItem {
+    __weak ProjectItem *_parent;
+}
 
 - (NinjaProject *)project
 {
@@ -38,9 +40,14 @@
     
 }
 
+- (ProjectItem *)parent
+{
+    return _parent;
+}
+
 - (void)setParent:(ProjectItem *)parent
 {
-    
+    _parent = parent;
 }
 
 - (void)beginSyntaxHighlighting:(id<ProjectItemSyntaxHighlightingDelegate>)syntaxDelegate
