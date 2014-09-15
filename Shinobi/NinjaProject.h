@@ -20,9 +20,12 @@ typedef struct {
 
 @end
 
+@class ProjectDocument;
+
 @interface NinjaProject : ProjectItem
 
 @property (nonatomic, weak) id<NinjaProjectBuildDelegate> buildDelegate;
+@property (nonatomic, weak) ProjectDocument *document;
 
 - (instancetype)initWithPath:(NSString *)path;
 - (void)build;
