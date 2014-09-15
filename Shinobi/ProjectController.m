@@ -23,7 +23,7 @@
     
     if (self)
     {
-        self.rootItem = [[NinjaProject alloc] initWithPath:@"/Users/phausler/Documents/ninja/build.ninja"];
+        self.rootItem = [[NinjaProject alloc] initWithPath:@"/Users/phausler/Documents/Shinobi/build.ninja"];
         self.rootItem.buildDelegate = self;
     }
     
