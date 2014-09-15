@@ -405,8 +405,8 @@ public:
             builder.AddTarget(node, &err);
         }
         
-
-        std::string log_path = ".ninja_log";
+        
+        std::string log_path = parser.GetBuildDirectory() + "/.ninja_log";
         if (!log.Load(log_path, &err))
         {
             return false;
@@ -416,7 +416,7 @@ public:
             err.clear();
         }
         
-        std::string deps_path = ".ninja_deps";
+        std::string deps_path = parser.GetBuildDirectory() + "/.ninja_deps";
         if (!deps.Load(deps_path, &state, &err))
         {
             return false;
