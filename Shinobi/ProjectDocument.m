@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Philippe Hausler. All rights reserved.
 //
 
-#import "ProjectController.h"
+#import "ProjectDocument.h"
 #import "NinjaProject.h"
 #import "ProjectEditor.h"
 #import "NinjaNode.h"
 #import "ProjectEditorGutter.h"
 
-@interface ProjectController () <NinjaProjectBuildDelegate>
+@interface ProjectDocument () <NinjaProjectBuildDelegate>
 @end
 
-@implementation ProjectController
+@implementation ProjectDocument
 
 - (instancetype)init
 {
@@ -23,22 +23,15 @@
     
     if (self)
     {
-        self.rootItem = [[NinjaProject alloc] initWithPath:@"/Users/phausler/Documents/Shinobi/build.ninja"];
-        self.rootItem.buildDelegate = self;
+    
     }
     
     return self;
 }
 
-- (void)buildProgressChanged:(BuildProgress)progress
+- (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
-    [self.buildProgress setMaxValue:progress.total];
-    [self.buildProgress setDoubleValue:progress.finished];
-}
-
-- (void)awakeFromNib
-{
-    self.window.title = [[[self.rootItem path] stringByDeletingLastPathComponent] lastPathComponent];
+    [super windowControllerDidLoadNib:aController];
     self.editor.typingAttributes = @{NSForegroundColorAttributeName: [NSColor whiteColor], NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:11.0]};
     ProjectEditorGutter *gutter = [[ProjectEditorGutter alloc] initWithEditor:self.editor];
     [self.editor.enclosingScrollView setVerticalRulerView:gutter];
@@ -46,6 +39,47 @@
     [self.editor.enclosingScrollView setHasVerticalRuler:YES];
     [self.editor.enclosingScrollView setRulersVisible:YES];
     self.editor.controller = self;
+    if (self.rootItem != nil)
+    {
+        [self.projectOutline reloadData];
+    }
+}
+
++ (BOOL)autosavesInPlace
+{
+    return YES;
+}
+
+- (NSString *)windowNibName
+{
+    return @"ProjectDocument";
+}
+
+- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
+{
+    // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
+    // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
+    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    return NO;
+}
+
+- (BOOL)isEntireFileLoaded
+{
+    return self.rootItem != nil;
+}
+
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
+{
+    NSString *path = [url path];
+    self.rootItem = [[NinjaProject alloc] initWithPath:path];
+    self.rootItem.buildDelegate = self;
+    return [self isEntireFileLoaded];
+}
+
+- (void)buildProgressChanged:(BuildProgress)progress
+{
+    [self.buildProgress setMaxValue:progress.total];
+    [self.buildProgress setDoubleValue:progress.finished];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -78,7 +112,6 @@
     ProjectItem *item = (ProjectItem *)[self.projectOutline itemAtRow:[self.projectOutline selectedRow]];
     if ([item isKindOfClass:[NinjaNode class]])
     {
-        self.window.title = [item.path lastPathComponent];
         self.editor.item = item;
     }
 }

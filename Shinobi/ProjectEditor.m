@@ -8,7 +8,7 @@
 
 #import "ProjectEditor.h"
 #import "NinjaProject.h"
-#import "ProjectController.h"
+#import "ProjectDocument.h"
 
 @implementation ProjectEditor {
     ProjectItem *_item;

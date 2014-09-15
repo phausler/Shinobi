@@ -10,13 +10,12 @@
 
 @class NinjaProject, ProjectEditor;
 
-@interface ProjectController : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface ProjectDocument : NSDocument <NSOutlineViewDataSource, NSOutlineViewDelegate>
 
 @property (nonatomic, retain) NinjaProject *rootItem;
 @property (nonatomic, retain) IBOutlet NSOutlineView *projectOutline;
 @property (nonatomic, retain) IBOutlet ProjectEditor *editor;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *buildProgress;
-@property (nonatomic, retain) IBOutlet NSWindow *window;
 @property (nonatomic, retain) IBOutlet NSTextField *statusLabel;
 @property (nonatomic, copy) NSString *status;
 

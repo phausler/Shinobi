@@ -9,11 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "ProjectItem.h"
 
-@class ProjectController;
+@class ProjectDocument;
 
 @interface ProjectEditor : NSTextView <ProjectItemSyntaxHighlightingDelegate>
 
 @property (nonatomic, retain) ProjectItem *item;
-@property (nonatomic, weak) ProjectController *controller;
+@property (nonatomic, weak) ProjectDocument *controller;
 
 @end

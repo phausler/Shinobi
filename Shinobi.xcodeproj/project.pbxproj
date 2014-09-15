@@ -16,11 +16,12 @@
 		5B0B3BE819C1F36D002D30A1 /* NinjaProject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BE719C1F36D002D30A1 /* NinjaProject.mm */; };
 		5B0B3BED19C1F8FC002D30A1 /* NinjaNode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BEC19C1F8FC002D30A1 /* NinjaNode.mm */; };
 		5B0B3BF019C1FD32002D30A1 /* ProjectDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BEF19C1FD32002D30A1 /* ProjectDirectory.m */; };
-		5B0B3BFC19C226B7002D30A1 /* ProjectController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BFB19C226B7002D30A1 /* ProjectController.m */; };
+		5B0B3BFC19C226B7002D30A1 /* ProjectDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BFB19C226B7002D30A1 /* ProjectDocument.m */; };
 		5B0B3BFF19C259F6002D30A1 /* ProjectEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3BFE19C259F6002D30A1 /* ProjectEditor.m */; };
 		5B0B3C0219C2854E002D30A1 /* ProjectEditorGutter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */; };
 		5B3B5CAA19C3B59300674E6E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B3B5CA919C3B59300674E6E /* libz.dylib */; };
 		5B3B5CAC19C3B59B00674E6E /* libncurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B3B5CAB19C3B59B00674E6E /* libncurses.dylib */; };
+		5BCC82C219C7299C00B82BE2 /* ProjectDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */; };
 		5BE90ED419C41339003CAB8C /* libclang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5419C41339003CAB8C /* libclang.a */; };
 		5BE90ED519C41339003CAB8C /* libclangAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5519C41339003CAB8C /* libclangAnalysis.a */; };
 		5BE90ED619C41339003CAB8C /* libclangARCMigrate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5619C41339003CAB8C /* libclangARCMigrate.a */; };
@@ -206,14 +207,15 @@
 		5B0B3BEC19C1F8FC002D30A1 /* NinjaNode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NinjaNode.mm; sourceTree = "<group>"; };
 		5B0B3BEE19C1FD32002D30A1 /* ProjectDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDirectory.h; sourceTree = "<group>"; };
 		5B0B3BEF19C1FD32002D30A1 /* ProjectDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDirectory.m; sourceTree = "<group>"; };
-		5B0B3BFA19C226B7002D30A1 /* ProjectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectController.h; sourceTree = "<group>"; };
-		5B0B3BFB19C226B7002D30A1 /* ProjectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectController.m; sourceTree = "<group>"; };
+		5B0B3BFA19C226B7002D30A1 /* ProjectDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDocument.h; sourceTree = "<group>"; };
+		5B0B3BFB19C226B7002D30A1 /* ProjectDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDocument.m; sourceTree = "<group>"; };
 		5B0B3BFD19C259F6002D30A1 /* ProjectEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectEditor.h; sourceTree = "<group>"; };
 		5B0B3BFE19C259F6002D30A1 /* ProjectEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectEditor.m; sourceTree = "<group>"; };
 		5B0B3C0019C2854E002D30A1 /* ProjectEditorGutter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectEditorGutter.h; sourceTree = "<group>"; };
 		5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectEditorGutter.m; sourceTree = "<group>"; };
 		5B3B5CA919C3B59300674E6E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5B3B5CAB19C3B59B00674E6E /* libncurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libncurses.dylib; path = usr/lib/libncurses.dylib; sourceTree = SDKROOT; };
+		5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectDocument.xib; sourceTree = "<group>"; };
 		5BE90E5419C41339003CAB8C /* libclang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclang.a; path = lib/libclang.a; sourceTree = "<group>"; };
 		5BE90E5519C41339003CAB8C /* libclangAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclangAnalysis.a; path = lib/libclangAnalysis.a; sourceTree = "<group>"; };
 		5BE90E5619C41339003CAB8C /* libclangARCMigrate.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclangARCMigrate.a; path = lib/libclangARCMigrate.a; sourceTree = "<group>"; };
@@ -520,8 +522,8 @@
 			children = (
 				5B0B3BC119C1F207002D30A1 /* AppDelegate.h */,
 				5B0B3BC219C1F207002D30A1 /* AppDelegate.m */,
-				5B0B3BFA19C226B7002D30A1 /* ProjectController.h */,
-				5B0B3BFB19C226B7002D30A1 /* ProjectController.m */,
+				5B0B3BFA19C226B7002D30A1 /* ProjectDocument.h */,
+				5B0B3BFB19C226B7002D30A1 /* ProjectDocument.m */,
 				5B0B3BE619C1F36D002D30A1 /* NinjaProject.h */,
 				5B0B3BE719C1F36D002D30A1 /* NinjaProject.mm */,
 				5B0B3BEB19C1F8FC002D30A1 /* NinjaNode.h */,
@@ -536,6 +538,7 @@
 				5B0B3C0119C2854E002D30A1 /* ProjectEditorGutter.m */,
 				5B0B3BC419C1F207002D30A1 /* Images.xcassets */,
 				5B0B3BC619C1F207002D30A1 /* MainMenu.xib */,
+				5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */,
 				5B0B3BBD19C1F207002D30A1 /* Supporting Files */,
 			);
 			path = Shinobi;
@@ -790,6 +793,7 @@
 			files = (
 				5B0B3BC519C1F207002D30A1 /* Images.xcassets in Resources */,
 				5B0B3BC819C1F207002D30A1 /* MainMenu.xib in Resources */,
+				5BCC82C219C7299C00B82BE2 /* ProjectDocument.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,7 +813,7 @@
 			files = (
 				5B0B3BFF19C259F6002D30A1 /* ProjectEditor.m in Sources */,
 				5B0B3BED19C1F8FC002D30A1 /* NinjaNode.mm in Sources */,
-				5B0B3BFC19C226B7002D30A1 /* ProjectController.m in Sources */,
+				5B0B3BFC19C226B7002D30A1 /* ProjectDocument.m in Sources */,
 				5B0B3BF019C1FD32002D30A1 /* ProjectDirectory.m in Sources */,
 				5B0B3BE819C1F36D002D30A1 /* NinjaProject.mm in Sources */,
 				5B0B3BC319C1F207002D30A1 /* AppDelegate.m in Sources */,
