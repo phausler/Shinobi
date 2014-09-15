@@ -11,8 +11,58 @@
 #import "ProjectEditor.h"
 #import "NinjaNode.h"
 #import "ProjectEditorGutter.h"
+#import "SymbolicDefinition.h"
 
 @interface ProjectDocument () <NinjaProjectBuildDelegate>
+@end
+
+@implementation ProjectItem (PathControl)
+
+- (NSPathComponentCell *)pathComponentCell
+{
+    NSPathComponentCell *cell = nil;
+    if (self.parent == nil)
+    {
+        cell = [[NSPathComponentCell alloc] initTextCell:[[self.path stringByDeletingLastPathComponent] lastPathComponent]];
+    }
+    else
+    {
+        cell = [[NSPathComponentCell alloc] initTextCell:[self.path lastPathComponent]];
+    }
+    
+    cell.URL = [NSURL fileURLWithPath:self.absolutePath];
+    
+    return cell;
+}
+
+- (NSArray *)pathControlCells
+{
+    if (self.parent == nil)
+    {
+        return [NSArray arrayWithObject:[self pathComponentCell]];
+    }
+    else
+    {
+        return [[self.parent pathControlCells] arrayByAddingObject:[self pathComponentCell]];
+    }
+}
+
+@end
+
+@implementation NinjaNode (PathControl)
+
+- (NSPathComponentCell *)symbolsCell
+{
+    NSPathComponentCell *cell = [[NSPathComponentCell alloc] initTextCell:@"No selection"];
+    cell.URL = [NSURL URLWithString:[NSString stringWithFormat:@"symbols:///%@", self.path]];
+    return cell;
+}
+
+- (NSArray *)pathControlCells
+{
+    return [[super pathControlCells] arrayByAddingObject:[self symbolsCell]];
+}
+
 @end
 
 @implementation ProjectDocument
@@ -38,7 +88,7 @@
     [self.editor.enclosingScrollView setHasHorizontalRuler:NO];
     [self.editor.enclosingScrollView setHasVerticalRuler:YES];
     [self.editor.enclosingScrollView setRulersVisible:YES];
-    self.editor.controller = self;
+    self.editor.document = self;
     if (self.rootItem != nil)
     {
         [self.projectOutline reloadData];
@@ -73,6 +123,7 @@
     NSString *path = [url path];
     self.rootItem = [[NinjaProject alloc] initWithPath:path];
     self.rootItem.buildDelegate = self;
+    self.rootItem.document = self;
     return [self isEntireFileLoaded];
 }
 
@@ -112,8 +163,32 @@
     ProjectItem *item = (ProjectItem *)[self.projectOutline itemAtRow:[self.projectOutline selectedRow]];
     if ([item isKindOfClass:[NinjaNode class]])
     {
+        [self.editorPath setPathComponentCells:[item pathControlCells]];
         self.editor.item = item;
     }
+}
+
+- (NSMenu *)pathControl:(NSPathControl *)pathControl menuForCell:(NSPathComponentCell *)cell
+{
+    if ([[cell.URL scheme] isEqualToString:@"symbols"])
+    {
+        NSMenu *menu = [[NSMenu alloc] init];
+        NSArray *comps = [cell.URL.path pathComponents];
+        NSString *path = [NSString pathWithComponents:[comps subarrayWithRange:NSMakeRange(1, comps.count - 1)]];
+        NinjaNode *projectItem = (NinjaNode *)[self.rootItem childForPath:path];
+        for (SymbolicDefinition *def in projectItem.symbols)
+        {
+            NSMenuItem *item = [[NSMenuItem alloc] init];
+            item.title = def.name;
+            item.representedObject = def;
+            item.target = self.editor;
+            item.action = @selector(jumpToSymbol:);
+            [menu addItem:item];
+        }
+        return menu;
+    }
+    
+    return nil;
 }
 
 - (IBAction)build:(id)sender

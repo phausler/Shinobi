@@ -9,6 +9,7 @@
 #import "ProjectEditor.h"
 #import "NinjaProject.h"
 #import "ProjectDocument.h"
+#import "SymbolicDefinition.h"
 
 @implementation ProjectEditor {
     ProjectItem *_item;
@@ -113,7 +114,7 @@
 - (void)mouseMoved:(NSEvent *)theEvent
 {
     NSPoint pt = [self convertPoint:theEvent.locationInWindow fromView:nil];
-    self.controller.status = [self view:self stringForToolTip:0 point:pt userData:NULL];
+    self.document.status = [self view:self stringForToolTip:0 point:pt userData:NULL];
     [super mouseMoved:theEvent];
 }
 
@@ -123,6 +124,14 @@
     {
         [self.textStorage endEditing];
     }
+}
+
+- (void)jumpToSymbol:(NSMenuItem *)sender
+{
+    SymbolicDefinition *def = [sender representedObject];
+    NSRange glyphRange = [self.layoutManager glyphRangeForCharacterRange:def.range actualCharacterRange:NULL];
+    NSRect rect = [self.layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:self.textContainer];
+    [self scrollRectToVisible:rect];
 }
 
 @end

@@ -7,16 +7,18 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "JumpBar.h"
 
 @class NinjaProject, ProjectEditor;
 
-@interface ProjectDocument : NSDocument <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface ProjectDocument : NSDocument <NSOutlineViewDataSource, NSOutlineViewDelegate, JumpBarDelegate>
 
 @property (nonatomic, retain) NinjaProject *rootItem;
 @property (nonatomic, retain) IBOutlet NSOutlineView *projectOutline;
 @property (nonatomic, retain) IBOutlet ProjectEditor *editor;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *buildProgress;
 @property (nonatomic, retain) IBOutlet NSTextField *statusLabel;
+@property (nonatomic, retain) IBOutlet JumpBar *editorPath;
 @property (nonatomic, copy) NSString *status;
 
 - (IBAction)build:(id)sender;

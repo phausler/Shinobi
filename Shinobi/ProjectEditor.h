@@ -14,6 +14,8 @@
 @interface ProjectEditor : NSTextView <ProjectItemSyntaxHighlightingDelegate>
 
 @property (nonatomic, retain) ProjectItem *item;
-@property (nonatomic, weak) ProjectDocument *controller;
+@property (nonatomic, weak) ProjectDocument *document;
+
+- (void)jumpToSymbol:(NSMenuItem *)sender;
 
 @end
