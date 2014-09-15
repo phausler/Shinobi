@@ -10,4 +10,6 @@
 
 @interface NinjaNode : ProjectItem
 
+@property (nonatomic, readonly) NSArray *symbols;
+
 @end

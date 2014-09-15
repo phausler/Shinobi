@@ -8,6 +8,7 @@
 
 #import "NinjaNode.h"
 #import "NinjaProject.h"
+#import "SymbolicDefinition.h"
 #import <ninja/graph.h>
 #include <clang/Tooling/Tooling.h>
 #import <AppKit/AppKit.h>
@@ -272,6 +273,12 @@ public:
 
 @end
 
+@interface SymbolicDefinition (Internal)
+
+- (instancetype)initWithRange:(NSRange)range spelling:(NSString *)spelling;
+
+@end
+
 @implementation NinjaNode {
     ninja::Node *_node;
     __weak NinjaProject *_project;
@@ -283,6 +290,7 @@ public:
     std::map<NSRange, clang::Decl *> _decls;
     std::map<NSRange, clang::Stmt *> _statements;
     std::map<NSRange, clang::TypeLoc> _typeLocs;
+    NSMutableArray *_symbols;
 }
 
 - (instancetype)initWithNode:(ninja::Node *)node project:(NinjaProject *)project
@@ -291,6 +299,7 @@ public:
     
     if (self)
     {
+        _symbols = [[NSMutableArray alloc] init];
         _node = node;
         _project = project;
         _lock = OS_SPINLOCK_INIT;
@@ -348,6 +357,7 @@ public:
         _decls.clear();
         _statements.clear();
         _typeLocs.clear();
+        [_symbols removeAllObjects];
         OSSpinLockUnlock(&_lock);
         for (auto ASTPtr = _ASTs.begin(); ASTPtr != _ASTs.end(); ASTPtr++)
         {
@@ -356,11 +366,20 @@ public:
             const clang::LangOptions &LangOpts = ASTPtr->get()->getLangOpts();
             for (auto it = ASTPtr->get()->top_level_begin(); it != ASTPtr->get()->top_level_end(); it++)
             {
+                std::map<NSRange, clang::Decl *> decls;
                 clang::Decl *D = (*it);
-                NinjaNodeASTVisitor visitor(SM, LangOpts, _decls, _statements, _typeLocs);
+                NinjaNodeASTVisitor visitor(SM, LangOpts, decls, _statements, _typeLocs);
                 OSSpinLockLock(&_lock);
                 visitor.TraverseDecl(D);
                 OSSpinLockUnlock(&_lock);
+                
+                for (auto info : decls)
+                {
+                    NSString *spelling = [NSString stringWithUTF8String:visitor.getSpelling(info.second->getLocation()).c_str()];
+                    SymbolicDefinition *def = [[SymbolicDefinition alloc] initWithRange:info.first spelling:spelling];
+                    [_symbols addObject:def];
+                    _decls[info.first] = info.second;
+                }
             }
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
