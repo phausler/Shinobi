@@ -94,7 +94,11 @@ private:
             
             for (NSString *path in paths)
             {
-                [nodes addObject:[_project childForPath:path]];
+                ProjectItem *node = [_project childForPath:path];
+                if (node != nil)
+                {
+                    [nodes addObject:node];
+                }
             }
             
             [_project startedBuildingNodes:nodes progress:progress];
@@ -113,7 +117,11 @@ private:
         
         for (NSString *path in paths)
         {
-            [nodes addObject:[_project childForPath:path]];
+            ProjectItem *node = [_project childForPath:path];
+            if (node != nil)
+            {
+                [nodes addObject:node];
+            }
         }
         
         [_project finishedBuildingNodes:nodes progress:progress];
