@@ -478,7 +478,7 @@ def rfc1034identifier(value):
     value = value.replace('_', '-')
     return re.sub(r'\s+', '-', value)
 
-def apply_template(opts, value):
+def apply_template_str(opts, value):
     applied = value
     if opts.executable_name is not None:
         applied = applied.replace("$(EXECUTABLE_NAME)", opts.executable_name)
@@ -488,6 +488,28 @@ def apply_template(opts, value):
     if opts.macosx_deployment_target is not None:
         applied = applied.replace("$(MACOSX_DEPLOYMENT_TARGET)", opts.macosx_deployment_target)
     return applied
+
+def apply_template_list(opts, value):
+    applied = []
+    for val in value:
+        applied.append(apply_template(opts, val))
+    return applied
+
+def apply_template_dict(opts, value):
+    applied = {}
+    for key in value.keys():
+        key = apply_template(opts, key)
+        val = apply_template(opts, value[key])
+        applied[key] = val
+    return applied
+
+def apply_template(opts, value):
+    if isinstance(value, list):
+        return apply_template_list(opts, value)
+    elif isinstance(value, dict):
+        return apply_template_dict(opts, value)
+    else:
+        return apply_template_str(opts, value)
 
 def main():
     import argparse
