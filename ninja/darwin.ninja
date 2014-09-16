@@ -1,4 +1,4 @@
-include ninja/posix.ninja
+include posix.ninja
 
 rule CompileXIB
     command = xcrun ibtool --errors --warnings --notices --module $module --minimum-deployment-target "" --output-partial-info-plist $plist --auto-activate-custom-fonts --output-format human-readable-text --compile $out $in
