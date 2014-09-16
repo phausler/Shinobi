@@ -1,11 +1,11 @@
 include posix.ninja
 
 rule CompileXIB
-    command = xcrun ibtool --errors --warnings --notices --module $module --minimum-deployment-target "" --output-partial-info-plist $plist --auto-activate-custom-fonts --output-format human-readable-text --compile $out $in
+    command = mkdir -p `dirname $plist` && xcrun ibtool --errors --warnings --notices --module $module --minimum-deployment-target "" --output-partial-info-plist $plist --auto-activate-custom-fonts --output-format human-readable-text --compile $out $in
     description = Compile XIB file $in
 
 rule CompileAssetCatalog
-    command = xcrun actool --output-format human-readable-text --notices --warnings --export-dependency-info $deps_info --output-partial-info-plist $plist --app-icon AppIcon --platform $platform --minimum-deployment-target "" --target-device $device --compile $out $in
+    command = mkdir -p `dirname $deps_info` && mkdir -p `dirname $plist` && xcrun actool --output-format human-readable-text --notices --warnings --export-dependency-info $deps_info --output-partial-info-plist $plist --app-icon AppIcon --platform $platform --minimum-deployment-target "" --target-device $device --compile $out $in
     description = Compile asset catalog $in
 
 rule CodeSign

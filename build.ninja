@@ -6,15 +6,19 @@ project_cxxflags = $project_cflags -std=gnu++11 -stdlib=libc++
 
 build build/objects/Shinobi/AppDelegate.o: CompileC Shinobi/AppDelegate.m
     cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/BorderView.o: CompileC Shinobi/BorderView.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/JumpBar.o: CompileC Shinobi/JumpBar.m
+    cflags = $project_cflags -x objective-c
 build build/objects/Shinobi/main.o: CompileC Shinobi/main.m
     cflags = $project_cflags -x objective-c
 build build/objects/Shinobi/NinjaNode.o: CompileC Shinobi/NinjaNode.mm
     cflags = $project_cxxflags -x objective-c++
 build build/objects/Shinobi/NinjaProject.o: CompileC Shinobi/NinjaProject.mm
     cflags = $project_cxxflags -x objective-c++
-build build/objects/Shinobi/ProjectController.o: CompileC Shinobi/ProjectController.m
-    cflags = $project_cflags -x objective-c
 build build/objects/Shinobi/ProjectDirectory.o: CompileC Shinobi/ProjectDirectory.m
+    cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/ProjectDocument.o: CompileC Shinobi/ProjectDocument.m
     cflags = $project_cflags -x objective-c
 build build/objects/Shinobi/ProjectEditor.o: CompileC Shinobi/ProjectEditor.m
     cflags = $project_cflags -x objective-c
@@ -22,21 +26,29 @@ build build/objects/Shinobi/ProjectEditorGutter.o: CompileC Shinobi/ProjectEdito
     cflags = $project_cflags -x objective-c
 build build/objects/Shinobi/ProjectItem.o: CompileC Shinobi/ProjectItem.m
     cflags = $project_cflags -x objective-c
+build build/objects/Shinobi/SymbolicDefinition.o: CompileC Shinobi/SymbolicDefinition.m
+    cflags = $project_cflags -x objective-c
 
 build build/Shinobi.app/Contents/MacOS/Shinobi: Ld build/objects/Shinobi/AppDelegate.o $
+                                                   build/objects/Shinobi/BorderView.o $
+                                                   build/objects/Shinobi/JumpBar.o $
                                                    build/objects/Shinobi/main.o $
                                                    build/objects/Shinobi/NinjaNode.o $
                                                    build/objects/Shinobi/NinjaProject.o $
-                                                   build/objects/Shinobi/ProjectController.o $
                                                    build/objects/Shinobi/ProjectDirectory.o $
+                                                   build/objects/Shinobi/ProjectDocument.o $
                                                    build/objects/Shinobi/ProjectEditor.o $
                                                    build/objects/Shinobi/ProjectEditorGutter.o $
-                                                   build/objects/Shinobi/ProjectItem.o
+                                                   build/objects/Shinobi/ProjectItem.o $
+                                                   build/objects/Shinobi/SymbolicDefinition.o
     ldflags = -arch x86_64 -Llib -Xlinker -rpath -Xlinker @executable_path/../Frameworks -fobjc-arc -fobjc-link-runtime -stdlib=libc++ -lLLVMCodeGen -lLLVMOption -lclangSerialization -lclangAST -lLLVMDebugInfo -lclangStaticAnalyzerFrontend -lclangRewrite -lclangRewriteFrontend -lLLVMARMInfo -lLLVMX86Utils -lLLVMSparcAsmPrinter -lLLVMSystemZDisassembler -lLLVMXCoreAsmPrinter -lclangASTMatchers -lLLVMRuntimeDyld -lLLVMBitWriter -lclangIndex -lLLVMX86Desc -lclangStaticAnalyzerCore -lLLVMAsmParser -lclangCodeGen -lLLVMAArch64Utils -lLLVMAArch64AsmPrinter -lLLVMSparcDisassembler -lLLVMR600CodeGen -lLLVMNVPTXDesc -lLLVMX86AsmPrinter -lLLVMSystemZInfo -lLLVMScalarOpts -lLLVMMCParser -lLLVMHexagonAsmPrinter -lLLVMObjCARCOpts -lLLVMSystemZCodeGen -lLLVMXCoreInfo -lninja -lLLVMProfileData -lLLVMAArch64Info -lclangEdit -lLLVMAArch64Desc -lLLVMSparcCodeGen -lLLVMMipsDisassembler -lLLVMMSP430AsmPrinter -lLLVMSparcAsmParser -lLLVMAnalysis -lclangStaticAnalyzerCheckers -lLLVMAArch64Disassembler -lLLVMHexagonInfo -lLLVMTransformUtils -lLLVMX86AsmParser -lLLVMMipsAsmPrinter -lLLVMX86Info -lclang -lclangAnalysis -lLLVMNVPTXAsmPrinter -lLLVMMSP430Desc -lLLVMARMCodeGen -lLLVMPowerPCDisassembler -lLLVMMipsAsmParser -lLLVMPowerPCCodeGen -lLLVMR600Info -lLLVMMipsInfo -lLLVMJIT -lLLVMPowerPCDesc -lclangSema -lLLVMSelectionDAG -lclangFrontendTool -lLLVMAArch64AsmParser -lclangDriver -lLLVMR600AsmPrinter -lclangBasic -lLLVMTarget -lLLVMARMAsmPrinter -lLLVMX86Disassembler -lLLVMInterpreter -lLLVMSparcDesc -lclangARCMigrate -lLLVMSystemZAsmPrinter -lclangFrontend -lLLVMARMDesc -lLLVMMSP430CodeGen -lLLVMPowerPCAsmParser -lLLVMVectorize -lLLVMMSP430Info -lncurses -lclangLex -lLLVMXCoreDesc -lLLVMBitReader -lLLVMX86CodeGen -lLLVMMC -lLLVMAsmPrinter -lLLVMSparcInfo -lclangDynamicASTMatchers -lLLVMXCoreDisassembler -lclangParse -lclangFormat -lLLVMARMDisassembler -lLLVMHexagonCodeGen -lLLVMPowerPCInfo -lLLVMNVPTXCodeGen -lLLVMSupport -lLLVMLinker -lLLVMPowerPCAsmPrinter -lLLVMInstrumentation -lLLVMCore -lLLVMExecutionEngine -lLLVMipa -lLLVMNVPTXInfo -lLLVMTableGen -lLLVMAArch64CodeGen -lLLVMipo -lLLVMIRReader -lLLVMSystemZAsmParser -lLLVMMipsCodeGen -lLLVMObject -lLLVMXCoreCodeGen -lLLVMMCAnalysis -lLLVMMipsDesc -lLLVMMCDisassembler -lLLVMInstCombine -lclangTooling -lLLVMCppBackendCodeGen -lz -lLLVMR600Desc -lLLVMHexagonDesc -lLLVMLineEditor -lLLVMARMAsmParser -lLLVMMCJIT -lLLVMSystemZDesc -lLLVMCppBackendInfo
 
 build build/Shinobi.app/Contents/Resources/Base.lproj/MainMenu.nib: CompileXIB Shinobi/Base.lproj/MainMenu.xib
     module = Shinobi
     plist = build/xib/MainMenu-PartialInfo.plist
+build build/Shinobi.app/Contents/Resources/Base.lproj/ProjectDocument.nib: CompileXIB Shinobi/Base.lproj/ProjectDocument.xib
+    module = Shinobi
+    plist = build/xib/ProjectDocument-PartialInfo.plist
 build build/Shinobi.app/Contents/Resources: CompileAssetCatalog Shinobi/Images.xcassets
     platform = macosx
     device = mac
@@ -54,14 +66,17 @@ build build/Shinobi.app: Touch
 
 
 build Shinobi: phony build/objects/Shinobi/AppDelegate.o $
+                     build/objects/Shinobi/BorderView.o $
+                     build/objects/Shinobi/JumpBar.o $
                      build/objects/Shinobi/main.o $
                      build/objects/Shinobi/NinjaNode.o $
                      build/objects/Shinobi/NinjaProject.o $
-                     build/objects/Shinobi/ProjectController.o $
                      build/objects/Shinobi/ProjectDirectory.o $
+                     build/objects/Shinobi/ProjectDocument.o $
                      build/objects/Shinobi/ProjectEditor.o $
                      build/objects/Shinobi/ProjectEditorGutter.o $
                      build/objects/Shinobi/ProjectItem.o $
+                     build/objects/Shinobi/SymbolicDefinition.o $
                      build/Shinobi.app/Contents/MacOS/Shinobi $
                      build/Shinobi.app/Contents/Resources/Base.lproj/MainMenu.nib $
                      build/Shinobi.app/Contents/Resources $
