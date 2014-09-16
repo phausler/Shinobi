@@ -21,9 +21,12 @@
 #include "state.h"
 #include "util.h"
 
-// Support utilites for tests.
+using namespace ninja;
 
-struct Node;
+// Support utilites for tests.
+namespace ninja {
+  struct Node;
+}
 
 /// A base test fixture that includes a State object with a
 /// builtin "cat" rule.
