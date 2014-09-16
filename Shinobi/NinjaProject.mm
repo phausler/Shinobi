@@ -336,9 +336,9 @@ public:
     _NinjaProject() :
         parser(&state, &reader) {}
     
-    void load(NSString *path)
+    bool load(NSString *path, std::string *error)
     {
-        parser.Load(std::string(path.UTF8String), nullptr);
+        return parser.Load(std::string(path.UTF8String), error);
     }
     
     std::vector<ninja::Node *> nodes()
@@ -443,7 +443,8 @@ public:
 };
 
 @implementation NinjaProject {
-    _NinjaProject project;
+    BOOL _loaded;
+    _NinjaProject _project;
     NSMutableArray *_children;
     NSString *_path;
 }
@@ -455,7 +456,6 @@ public:
     if (self)
     {
         _path = [path copy];
-        project.load(path);
     }
     
     return self;
@@ -488,7 +488,7 @@ public:
     {
         NSMutableArray *nodes = [[NSMutableArray alloc] init];
         
-        for (auto *node : project.nodes())
+        for (auto *node : [self ninjaProject]->nodes())
         {
             [nodes addObject:[[NinjaNode alloc] initWithNode:node project:self]];
         }
@@ -540,7 +540,7 @@ public:
 
 - (void)build
 {
-    project.build(self);
+    [self ninjaProject]->build(self);
 }
 
 - (void)updateProgress:(BuildProgress)progress
@@ -558,9 +558,29 @@ public:
     [self.buildDelegate buildProgressChanged:progress];
 }
 
+- (void)loadIfNeeded
+{
+    if (!_loaded)
+    {
+        std::string error;
+        if (_project.load(_path, &error)) {
+            _loaded = YES;
+        } else {
+            NSLog(@"%s", error.c_str());
+        }
+    }
+}
+
 - (clang::tooling::CompilationDatabase *)compilationDatabase
 {
-    return &project;
+    [self loadIfNeeded];
+    return &_project;
+}
+
+- (_NinjaProject *)ninjaProject
+{
+    [self loadIfNeeded];
+    return &_project;
 }
 
 @end
