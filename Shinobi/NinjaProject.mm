@@ -10,6 +10,7 @@
 #import "NinjaNode.h"
 #import "ProjectDirectory.h"
 #include <libgen.h>
+#include <stdlib.h>
 #include <ninja/build.h>
 #include <ninja/manifest_parser.h>
 #include <ninja/state.h>
@@ -162,13 +163,97 @@ public:
     }
 };
 
+class RelativeDiskInterface : public ninja::DiskInterface {
+private:
+    ninja::RealDiskInterface interface_;
+    std::string base_;
+    
+    bool isAbsolute(const string &path) const
+    {
+        return path[0] == '/' || path[0] == '~';
+    }
+    
+    std::string absolutePath(const string &path) const
+    {
+        std::string composed = base_ + "/" + path;
+        char resolved[PATH_MAX];
+        realpath(composed.c_str(), resolved);
+        return std::string(resolved);
+    }
+    
+public:
+    void setBase(std::string base) {
+        base_ = base;
+    }
+    
+    virtual TimeStamp Stat(const string& path) const
+    {
+        if (isAbsolute(path))
+        {
+            return interface_.Stat(path);
+        }
+        else
+        {
+            return interface_.Stat(absolutePath(path));
+        }
+    }
+
+    virtual bool MakeDir(const string& path)
+    {
+        if (isAbsolute(path))
+        {
+            return interface_.MakeDir(path);
+        }
+        else
+        {
+            return interface_.MakeDir(absolutePath(path));
+        }
+    }
+    
+    virtual bool WriteFile(const string& path, const string& contents)
+    {
+        if (isAbsolute(path))
+        {
+            return interface_.WriteFile(path, contents);
+        }
+        else
+        {
+            return interface_.WriteFile(absolutePath(path), contents);
+        }
+    }
+    
+    virtual string ReadFile(const string& path, string* err)
+    {
+        if (isAbsolute(path))
+        {
+            return interface_.ReadFile(path, err);
+        }
+        else
+        {
+            return interface_.ReadFile(absolutePath(path), err);
+        }
+    }
+    
+    virtual int RemoveFile(const string& path)
+    {
+        if (isAbsolute(path))
+        {
+            return interface_.RemoveFile(path);
+        }
+        else
+        {
+            return interface_.RemoveFile(absolutePath(path));
+        }
+    }
+};
+
 class _NinjaProject : public ninja::BuildLogUser, public clang::tooling::CompilationDatabase {
 private:
     ninja::BuildConfig config;
     ninja::State state;
     ninja::ManifestParser parser;
     FileReader reader;
-    ninja::RealDiskInterface diskInterface;
+    RelativeDiskInterface diskInterface;
     
     std::string nodePath(std::string path) const
     {
@@ -338,6 +423,8 @@ public:
     
     bool load(NSString *path, std::string *error)
     {
+        NSString *base = [path stringByDeletingLastPathComponent];
+        diskInterface.setBase(std::string(base.UTF8String));
         return parser.Load(std::string(path.UTF8String), error);
     }
     
@@ -393,52 +480,54 @@ public:
         return (!n || !n->in_edge()) && diskInterface.Stat(s.AsString()) == 0;
     }
     
-    bool build(NinjaProject *project) {
-        ninja::BuildLog log;
-        ninja::DepsLog deps;
-        BuildStatusReporter status(project);
-        ninja::Builder builder(&state, config, &log, &deps, &diskInterface, &status);
-        std::string err;
-        
-        for (auto node : state.DefaultNodes(&err))
-        {
-            builder.AddTarget(node, &err);
+    bool build(NinjaProject *project, std::string *err) {
+        for (int cycle = 0; cycle < 2; ++cycle) {
+            std::string builddir = state.bindings_.LookupVariable("builddir");
+            
+            if (!builddir.empty())
+            {
+                diskInterface.MakeDirs(parser.GetBuildDirectory() + "/" + builddir + "/.");
+            }
+            
+            ninja::BuildLog log;
+            ninja::DepsLog *deps = new ninja::DepsLog();
+            ninja::ConsoleBuildStatus status(config);
+            
+            std::string buildDir = parser.GetBuildDirectory();
+            
+            std::string log_path = buildDir + "/.ninja_log";
+            std::string deps_path = buildDir + "/.ninja_deps";
+            
+            if (!log.OpenForWrite(log_path, *this, err))
+            {
+                return false;
+            }
+            
+            if (!deps->OpenForWrite(deps_path, err))
+            {
+                return false;
+            }
+            
+            ninja::Builder builder(&state, config, &log, deps, &diskInterface, &status);
+            
+            for (auto node : state.DefaultNodes(err))
+            {
+                if (!builder.AddTarget(node, err)) {
+                    return false;
+                }
+            }
+            
+            if (builder.AlreadyUpToDate())
+            {
+                return true;
+            }
+            
+            if (!builder.Build(err))
+            {
+                return false;
+            }
         }
-        
-        
-        std::string log_path = parser.GetBuildDirectory() + "/.ninja_log";
-        if (!log.Load(log_path, &err))
-        {
-            return false;
-        }
-        
-        if (!err.empty()) {
-            err.clear();
-        }
-        
-        std::string deps_path = parser.GetBuildDirectory() + "/.ninja_deps";
-        if (!deps.Load(deps_path, &state, &err))
-        {
-            return false;
-        }
-        
-        if (!err.empty()) {
-            err.clear();
-        }
-        
-        if (!log.OpenForWrite(log_path, *this, &err)) {
-            return false;
-        }
-        
-        if (!deps.OpenForWrite(deps_path, &err)) {
-            return false;
-        }
-        
-        if (builder.AlreadyUpToDate()) {
-            return true;
-        }
-        
-        return builder.Build(&err);
+        return true;
     }
 };
 
@@ -540,7 +629,14 @@ public:
 
 - (void)build
 {
-    [self ninjaProject]->build(self);
+    _NinjaProject *project = [self ninjaProject];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        std::string err;
+
+        if (!project->build(self, &err)) {
+            NSLog(@"build failed: %s", err.c_str());
+        }
+    });
 }
 
 - (void)updateProgress:(BuildProgress)progress
