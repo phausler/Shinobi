@@ -215,4 +215,33 @@
     self.statusLabel.stringValue = status;
 }
 
+- (IBAction)dismissAddNewFile:(id)sender
+{
+    [self.windowForSheet endSheet:self.addNewFilePanel returnCode:NSModalResponseAbort];
+}
+
+- (IBAction)addNewFile:(id)sender
+{
+    [self.windowForSheet beginSheet:self.addNewFilePanel completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSModalResponseContinue)
+        {
+            NSSavePanel *savePanel = [NSSavePanel savePanel];
+            
+            [savePanel beginSheetModalForWindow:self.windowForSheet completionHandler:^(NSInteger result) {
+                
+            }];
+        }
+    }];
+}
+
+- (IBAction)addNewFilePrev:(id)sender
+{
+    [self.windowForSheet endSheet:self.addNewFilePanel returnCode:NSModalResponseStop];
+}
+
+- (IBAction)addNewFileNext:(id)sender
+{
+    [self.windowForSheet endSheet:self.addNewFilePanel returnCode:NSModalResponseContinue];
+}
+
 @end

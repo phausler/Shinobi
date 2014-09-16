@@ -6,6 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ProjectDocument">
             <connections>
+                <outlet property="addNewFilePanel" destination="AU1-EI-Cc1" id="uhH-o6-xjM"/>
                 <outlet property="buildProgress" destination="l6d-Q1-N4s" id="8oZ-CT-CCG"/>
                 <outlet property="editor" destination="Mx6-9p-Gg9" id="G2n-cW-uNq"/>
                 <outlet property="editorPath" destination="szl-f9-zTZ" id="SE7-E6-sSQ"/>
@@ -86,6 +87,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="addNewFile:" target="-2" id="0qg-GR-3Pz"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </customView>
@@ -172,6 +176,75 @@
                 </defaultToolbarItems>
             </toolbar>
             <point key="canvasLocation" x="305" y="428.5"/>
+        </window>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="AU1-EI-Cc1" userLabel="Add New Panel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="139" y="81" width="528" height="296"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <view key="contentView" id="NuU-Qy-o6T">
+                <rect key="frame" x="0.0" y="-1" width="528" height="296"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="lmV-Os-K1c">
+                        <rect key="frame" x="420" y="13" width="94" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zhh-c6-WeQ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addNewFileNext:" target="-2" id="iqt-0T-kqa"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="MYg-Ej-mad">
+                        <rect key="frame" x="326" y="13" width="94" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Previous" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="M1E-GI-nnB">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="addNewFilePrev:" target="-2" id="ysd-4F-A7b"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="47m-fE-Wrz">
+                        <rect key="frame" x="14" y="13" width="94" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bdK-Ao-B5N">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="dismissAddNewFile:" target="-2" id="ZJY-DU-zL0"/>
+                        </connections>
+                    </button>
+                    <customView id="vP0-vb-Y9V" customClass="BorderView">
+                        <rect key="frame" x="20" y="61" width="150" height="190"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                    </customView>
+                    <customView id="XKa-rC-QGp" customClass="BorderView">
+                        <rect key="frame" x="168" y="61" width="340" height="190"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </customView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="mQV-ZD-35c">
+                        <rect key="frame" x="18" y="259" width="492" height="17"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Choose a template for your new file:" id="NPT-qv-Gpf">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="269" y="871"/>
         </window>
     </objects>
     <resources>

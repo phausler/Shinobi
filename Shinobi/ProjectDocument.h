@@ -20,7 +20,12 @@
 @property (nonatomic, retain) IBOutlet NSTextField *statusLabel;
 @property (nonatomic, retain) IBOutlet JumpBar *editorPath;
 @property (nonatomic, copy) NSString *status;
+@property (nonatomic, retain) IBOutlet NSPanel *addNewFilePanel;
 
 - (IBAction)build:(id)sender;
+- (IBAction)dismissAddNewFile:(id)sender;
+- (IBAction)addNewFile:(id)sender;
+- (IBAction)addNewFilePrev:(id)sender;
+- (IBAction)addNewFileNext:(id)sender;
 
 @end
