@@ -11,5 +11,6 @@
 @interface NinjaNode : ProjectItem
 
 @property (nonatomic, readonly) NSArray *symbols;
+@property (nonatomic, readwrite, copy) NSString *contents;
 
 @end

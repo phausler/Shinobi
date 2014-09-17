@@ -11,7 +11,7 @@
 
 @class NinjaProject, ProjectEditor;
 
-@interface ProjectDocument : NSDocument <NSOutlineViewDataSource, NSOutlineViewDelegate, JumpBarDelegate>
+@interface ProjectDocument : NSDocument <NSOutlineViewDataSource, NSOutlineViewDelegate, JumpBarDelegate, NSTextStorageDelegate>
 
 @property (nonatomic, retain) NinjaProject *rootItem;
 @property (nonatomic, retain) IBOutlet NSOutlineView *projectOutline;

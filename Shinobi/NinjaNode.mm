@@ -333,6 +333,14 @@ public:
     return _contents;
 }
 
+- (void)setContents:(NSString *)contents
+{
+    if (![_contents isEqualToString:contents])
+    {
+        _contents = [contents copy];
+    }
+}
+
 - (NSStringEncoding)encoding
 {
     return _encoding;

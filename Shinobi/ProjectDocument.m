@@ -18,6 +18,11 @@
 
 @implementation ProjectItem (PathControl)
 
+- (BOOL)save:(NSError **)error
+{
+    return [self.contents writeToFile:self.absolutePath atomically:YES encoding:self.encoding error:error];
+}
+
 - (NSPathComponentCell *)pathComponentCell
 {
     NSPathComponentCell *cell = nil;
@@ -89,6 +94,7 @@
     [self.editor.enclosingScrollView setHasVerticalRuler:YES];
     [self.editor.enclosingScrollView setRulersVisible:YES];
     self.editor.document = self;
+    self.editor.textStorage.delegate = self;
     if (self.rootItem != nil)
     {
         [self.projectOutline reloadData];
@@ -242,6 +248,37 @@
 - (IBAction)addNewFileNext:(id)sender
 {
     [self.windowForSheet endSheet:self.addNewFilePanel returnCode:NSModalResponseContinue];
+}
+
+- (void)textStorageWillProcessEditing:(NSNotification *)notification
+{
+    
+}
+
+- (void)textStorageDidProcessEditing:(NSNotification *)notification
+{
+    if (![[self.editor.textStorage string] isEqualToString:self.editor.item.contents])
+    {
+        if ([self.editor.item isKindOfClass:[NinjaNode class]])
+        {
+            NinjaNode *node = (NinjaNode *)self.editor.item;
+            node.contents = self.editor.textStorage.string;
+        }
+        [self updateChangeCount:NSChangeDone];
+    }
+}
+
+- (IBAction)saveDocument:(id)sender
+{
+    NSError *err;
+    if (![self.editor.item save:&err])
+    {
+        NSLog(@"%@", err); // TODO change this to an alert
+    }
+    else
+    {
+        [self updateChangeCount:NSChangeCleared];
+    }
 }
 
 @end
