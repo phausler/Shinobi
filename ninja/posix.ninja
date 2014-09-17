@@ -4,7 +4,7 @@ rule Touch
 
 rule CompileC
     command = clang -MMD -MT $out -MF $out.d $cflags -c $in -o $out
-    description = Compile $out
+    description = Compile $in
     depfile = $out.d
     deps = gcc
 
@@ -14,4 +14,4 @@ rule Ld
 
 rule CopyFiles
     command = rsync -r --exclude .DS_Store --exclude CVS --exclude .svn --exclude .git --exclude .hg --copy-links $in `dirname $out`
-    description = Copy $out
+    description = Copy $in
