@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Philippe Hausler. All rights reserved.
 //
 
-#import "ProjectItem.h"
+#import "NinjaNode.h"
 
 typedef struct {
     int finished;
@@ -22,7 +22,7 @@ typedef struct {
 
 @class ProjectDocument;
 
-@interface NinjaProject : ProjectItem
+@interface NinjaProject : NinjaNode
 
 @property (nonatomic, weak) id<NinjaProjectBuildDelegate> buildDelegate;
 @property (nonatomic, weak) ProjectDocument *document;

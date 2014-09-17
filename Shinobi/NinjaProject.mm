@@ -679,6 +679,11 @@ public:
     return &_project;
 }
 
+- (void)beginSyntaxHighlighting:(id<ProjectItemSyntaxHighlightingDelegate>)syntaxDelegate
+{
+    
+}
+
 @end
 
 
