@@ -11,21 +11,23 @@
 @class NinjaProject, ProjectItem;
 
 typedef enum {
-    ASTSyntaxBuiltinType,
-    ASTSyntaxNumericLiteralType,
-    ASTSyntaxStringLiteralType,
-    ASTSyntaxIntrinsicLiteralType,
-    ASTSyntaxFunctionType,
-    ASTSyntaxCXXMethodType,
-    ASTSyntaxOtherType
-} ASTSyntaxType;
+    SyntaxBuiltinType,
+    SyntaxNumericLiteralType,
+    SyntaxStringLiteralType,
+    SyntaxIntrinsicLiteralType,
+    SyntaxFunctionType,
+    SyntaxCXXMethodType,
+    SyntaxPreprocessorType,
+    SyntaxCommentType,
+    SyntaxOtherType
+} SyntaxType;
 
 @protocol ProjectItemSyntaxHighlightingDelegate <NSObject>
 @required
 
 - (void)beginEditingForItem:(ProjectItem *)item;
-- (void)setType:(ASTSyntaxType)type range:(NSRange)range forItem:(ProjectItem *)item;
-- (void)setType:(ASTSyntaxType)type range:(NSRange)range tooltip:(NSString *)tooltip forItem:(ProjectItem *)item;
+- (void)setType:(SyntaxType)type range:(NSRange)range forItem:(ProjectItem *)item;
+- (void)setType:(SyntaxType)type range:(NSRange)range tooltip:(NSString *)tooltip forItem:(ProjectItem *)item;
 - (void)endEditingForItem:(ProjectItem *)item;
 
 - (NSString *)substringWithRange:(NSRange)range;

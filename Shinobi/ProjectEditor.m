@@ -44,19 +44,21 @@
     }
 }
 
-- (NSDictionary *)attributesForType:(ASTSyntaxType)type
+- (NSDictionary *)attributesForType:(SyntaxType)type
 {
     static NSDictionary *typeAttributes = nil;
     static dispatch_once_t once = 0L;
     dispatch_once(&once, ^{
         typeAttributes = @{
-            @(ASTSyntaxBuiltinType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.75 green:0.22 blue:0.60 alpha:1.0]},
-            @(ASTSyntaxNumericLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.55 green:0.52 blue:0.80 alpha:1.0]},
-            @(ASTSyntaxStringLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.80 green:0.27 blue:0.30 alpha:1.0]},
-            @(ASTSyntaxIntrinsicLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.75 green:0.22 blue:0.60 alpha:1.0]},
-            @(ASTSyntaxFunctionType): @{NSForegroundColorAttributeName: [NSColor greenColor]},
-            @(ASTSyntaxCXXMethodType): @{NSForegroundColorAttributeName: [NSColor greenColor]},
-            @(ASTSyntaxOtherType): @{NSForegroundColorAttributeName: [NSColor grayColor]},
+            @(SyntaxBuiltinType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.75 green:0.22 blue:0.60 alpha:1.0]},
+            @(SyntaxNumericLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.55 green:0.52 blue:0.80 alpha:1.0]},
+            @(SyntaxStringLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.80 green:0.27 blue:0.30 alpha:1.0]},
+            @(SyntaxIntrinsicLiteralType): @{NSForegroundColorAttributeName: [NSColor colorWithRed:0.75 green:0.22 blue:0.60 alpha:1.0]},
+            @(SyntaxFunctionType): @{NSForegroundColorAttributeName: [NSColor greenColor]},
+            @(SyntaxCXXMethodType): @{NSForegroundColorAttributeName: [NSColor greenColor]},
+            @(SyntaxPreprocessorType): @{NSForegroundColorAttributeName: [NSColor brownColor]},
+            @(SyntaxCommentType): @{NSForegroundColorAttributeName: [NSColor greenColor]},
+            @(SyntaxOtherType): @{NSForegroundColorAttributeName: [NSColor grayColor]},
         };
     });
     return typeAttributes[@(type)];
@@ -67,7 +69,7 @@
     return [[self.textStorage string] substringWithRange:range];
 }
 
-- (void)setType:(ASTSyntaxType)type range:(NSRange)range tooltip:(NSString *)tooltip forItem:(ProjectItem *)item
+- (void)setType:(SyntaxType)type range:(NSRange)range tooltip:(NSString *)tooltip forItem:(ProjectItem *)item
 {
     if (_item == item)
     {
@@ -89,7 +91,7 @@
     }
 }
 
-- (void)setType:(ASTSyntaxType)type range:(NSRange)range forItem:(ProjectItem *)item
+- (void)setType:(SyntaxType)type range:(NSRange)range forItem:(ProjectItem *)item
 {
     [self setType:type range:range tooltip:nil forItem:item];
 }
