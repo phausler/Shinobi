@@ -139,6 +139,21 @@
     [self.buildProgress setDoubleValue:progress.finished];
 }
 
+- (void)reloadProject
+{
+    NSString *path = self.editor.item.path;
+    self.editor.item = nil;
+    [self.projectOutline reloadData];
+    if ([path isEqualToString:self.rootItem.path])
+    {
+        self.editor.item = self.rootItem;
+    }
+    else if (path != nil)
+    {
+        self.editor.item = [self.rootItem childForPath:path];
+    }
+}
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     return (item == nil) ? 1 : [[item children] count];

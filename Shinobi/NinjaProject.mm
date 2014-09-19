@@ -9,6 +9,7 @@
 #import "NinjaProject.h"
 #import "NinjaNode.h"
 #import "ProjectDirectory.h"
+#import "FileSystemMonitor.h"
 #include <libgen.h>
 #include <stdlib.h>
 #include <ninja/build.h>
@@ -40,7 +41,7 @@
 
 @end
 
-@interface NinjaProject (Internal)
+@interface NinjaProject () <FileSystemMonitorDelegate>
 
 - (void)updateProgress:(BuildProgress)progress;
 - (void)startedBuildingNodes:(NSSet *)nodes progress:(BuildProgress)progress;
@@ -532,10 +533,10 @@ public:
 };
 
 @implementation NinjaProject {
-    BOOL _loaded;
-    _NinjaProject _project;
+    _NinjaProject *_project;
     NSMutableArray *_children;
     NSString *_path;
+    FileSystemMonitor *_fsMonitor;
 }
 
 - (instancetype)initWithPath:(NSString *)path
@@ -545,9 +546,41 @@ public:
     if (self)
     {
         _path = [path copy];
+        _fsMonitor = [[FileSystemMonitor alloc] initWithPath:[_path stringByDeletingLastPathComponent]];
+        _fsMonitor.delegate = self;
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    if (_project)
+    {
+        delete _project;
+    }
+    _children = nil;
+    _path = nil;
+    _fsMonitor.delegate = nil;
+    _fsMonitor = nil;
+}
+
+- (void)monitor:(FileSystemMonitor *)monitor filesRemoved:(NSSet *)files
+{
+    
+}
+
+- (void)monitor:(FileSystemMonitor *)monitor filesAdded:(NSSet *)files
+{
+    
+}
+
+- (void)monitor:(FileSystemMonitor *)monitor filesChanged:(NSSet *)files
+{
+    if ([files member:self.absolutePath])
+    {
+        [self unload];
+    }
 }
 
 - (ProjectItem *)parent
@@ -656,27 +689,41 @@ public:
 
 - (void)loadIfNeeded
 {
-    if (!_loaded)
+    if (_project == nullptr)
     {
         std::string error;
-        if (_project.load(_path, &error)) {
-            _loaded = YES;
-        } else {
+        _project = new _NinjaProject();
+        if (!_project->load(_path, &error))
+        {
+            delete _project;
+            _project = nullptr;
             NSLog(@"%s", error.c_str());
         }
+    }
+}
+
+- (void)unload
+{
+    if (_project != nullptr)
+    {
+        _children = nil;
+        delete _project;
+        _project = nullptr;
+        
+        [self.buildDelegate reloadProject];
     }
 }
 
 - (clang::tooling::CompilationDatabase *)compilationDatabase
 {
     [self loadIfNeeded];
-    return &_project;
+    return _project;
 }
 
 - (_NinjaProject *)ninjaProject
 {
     [self loadIfNeeded];
-    return &_project;
+    return _project;
 }
 
 - (void)beginSyntaxHighlighting:(id<ProjectItemSyntaxHighlightingDelegate>)syntaxDelegate

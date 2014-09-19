@@ -17,6 +17,7 @@ typedef struct {
 @required
 
 - (void)buildProgressChanged:(BuildProgress)progress;
+- (void)reloadProject;
 
 @end
 

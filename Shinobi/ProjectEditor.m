@@ -28,7 +28,18 @@
         _item = item;
         [_item beginSyntaxHighlighting:self];
         [self.textStorage beginEditing];
-        NSAttributedString *str = [[NSAttributedString alloc] initWithString:item.contents attributes:self.typingAttributes];
+        NSAttributedString *str = nil;
+        
+        if (item != nil)
+        {
+            str = [[NSAttributedString alloc] initWithString:item.contents attributes:self.typingAttributes];
+            
+        }
+        else
+        {
+            str = [[NSAttributedString alloc] initWithString:@"" attributes:self.typingAttributes];
+        }
+        
         [self.textStorage setAttributedString:str];
         [self.enclosingScrollView.verticalRulerView setNeedsDisplay:YES];
         [self.textStorage endEditing];
