@@ -69,13 +69,8 @@ private:
     {
         std::pair<clang::FileID, unsigned> start = SM_->getDecomposedLoc(Start);
         std::pair<clang::FileID, unsigned> end = SM_->getDecomposedLoc(End);
-        size_t length = 0;
-        if (start.second == end.second)
-        {
-            length = getSpelling(Start).length();
-        }
 
-        return NSMakeRange(start.second, length + end.second - start.second);
+        return NSMakeRange(start.second, end.second - start.second);
     }
 
     NSRange getRange(clang::SourceRange Range)
@@ -98,10 +93,12 @@ public:
     virtual bool HandleComment(clang::Preprocessor &PP, clang::SourceRange Comment) {
         if (!isInMainFile(Comment.getBegin()))
         {
-            return true;
+            return false;
         }
         
-        return true;
+        Comments_.push_back(getRange(Comment));
+        
+        return false;
     }
 
 #pragma mark - Preprocessor
@@ -417,6 +414,7 @@ private:
             Visitor_->LangOpts_ = &CI.getLangOpts();
             Visitor_->SM_ = &CI.getSourceManager();
             Visitor_->PP_ = &CI.getPreprocessor();
+            Visitor_->PP_->addCommentHandler(Visitor_);
             Visitor_->PP_->addPPCallbacks(Visitor_);
             return true;
         }
