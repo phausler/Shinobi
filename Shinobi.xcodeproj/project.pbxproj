@@ -25,6 +25,7 @@
 		5B821A1519C7647200A6BD25 /* BorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B821A1419C7647200A6BD25 /* BorderView.m */; };
 		5B821A1B19C77BE600A6BD25 /* JumpBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B821A1A19C77BE600A6BD25 /* JumpBar.m */; };
 		5BCC82C219C7299C00B82BE2 /* ProjectDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */; };
+		5BD93D2219CB869D00D3E55D /* libgit2.0.21.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD93D2119CB869D00D3E55D /* libgit2.0.21.0.dylib */; };
 		5BD93D2519CBA31500D3E55D /* FileSystemMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD93D2419CBA31500D3E55D /* FileSystemMonitor.m */; };
 		5BE90ED419C41339003CAB8C /* libclang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5419C41339003CAB8C /* libclang.a */; };
 		5BE90ED519C41339003CAB8C /* libclangAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BE90E5519C41339003CAB8C /* libclangAnalysis.a */; };
@@ -227,6 +228,7 @@
 		5B821A1919C77BE600A6BD25 /* JumpBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpBar.h; sourceTree = "<group>"; };
 		5B821A1A19C77BE600A6BD25 /* JumpBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumpBar.m; sourceTree = "<group>"; };
 		5BCC82C119C7299C00B82BE2 /* ProjectDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectDocument.xib; sourceTree = "<group>"; };
+		5BD93D2119CB869D00D3E55D /* libgit2.0.21.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgit2.0.21.0.dylib; path = lib/libgit2.0.21.0.dylib; sourceTree = "<group>"; };
 		5BD93D2319CBA31500D3E55D /* FileSystemMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemMonitor.h; sourceTree = "<group>"; };
 		5BD93D2419CBA31500D3E55D /* FileSystemMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemMonitor.m; sourceTree = "<group>"; };
 		5BE90E5419C41339003CAB8C /* libclang.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libclang.a; path = lib/libclang.a; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BD93D2219CB869D00D3E55D /* libgit2.0.21.0.dylib in Frameworks */,
 				5BE90EFE19C41339003CAB8C /* libLLVMCodeGen.a in Frameworks */,
 				5BE90F2719C41339003CAB8C /* libLLVMOption.a in Frameworks */,
 				5BE90EE719C41339003CAB8C /* libclangSerialization.a in Frameworks */,
@@ -595,6 +598,7 @@
 		5B3B5BA819C3ACDA00674E6E /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				5BD93D2119CB869D00D3E55D /* libgit2.0.21.0.dylib */,
 				5BE90F5419C41346003CAB8C /* libninja.a */,
 				5BE90E5419C41339003CAB8C /* libclang.a */,
 				5BE90E5519C41339003CAB8C /* libclangAnalysis.a */,

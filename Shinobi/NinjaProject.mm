@@ -21,6 +21,7 @@
 #include <ninja/deps_log.h>
 #include <ninja/disk_interface.h>
 #include <clang/Tooling/CompilationDatabase.h>
+#include <git2.h>
 
 @interface NinjaNode (Internal)
 
@@ -728,6 +729,41 @@ public:
 
 - (void)beginSyntaxHighlighting:(id<ProjectItemSyntaxHighlightingDelegate>)syntaxDelegate
 {
+
+}
+
+- (BOOL)updateGitStatus
+{
+    git_repository *r;
+    int err = git_repository_open(&r, [self.path stringByDeletingLastPathComponent].fileSystemRepresentation);
+    
+    if (err != 0)
+    {
+        return NO;
+    }
+    
+    git_status_list *statusList;
+    git_status_options gitOptions = GIT_STATUS_OPTIONS_INIT;
+    gitOptions.flags = GIT_STATUS_OPT_DEFAULTS;
+    err = git_status_list_new(&statusList, r, &gitOptions);
+    
+    if (err != 0)
+    {
+        return NO;
+    }
+    
+    size_t statusCount = git_status_list_entrycount(statusList);
+    
+    for (size_t idx = 0; idx < statusCount; idx++)
+    {
+        const git_status_entry *entry = git_status_byindex(statusList, idx);
+        
+        NSLog(@"%x %s", entry->status, entry->index_to_workdir->new_file.path);
+    }
+    
+    git_status_list_free(statusList);
+    
+    return YES;
     
 }
 
