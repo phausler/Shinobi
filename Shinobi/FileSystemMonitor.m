@@ -41,7 +41,10 @@ static void eventHandler(CFFileDescriptorRef descriptor, CFOptionFlags callBackT
     int eventCount;
     int kq = CFFileDescriptorGetNativeDescriptor(descriptor);
     eventCount = kevent(kq, NULL, 0, &event, 1, &timeout);
-    [obj handleEvent:&event];
+    if (eventCount > 0)
+    {
+        [obj handleEvent:&event];
+    }
     CFFileDescriptorEnableCallBacks(descriptor, kCFFileDescriptorReadCallBack);
 }
 
