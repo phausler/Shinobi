@@ -84,6 +84,11 @@
 {
     if (_item == item)
     {
+        if (NSMaxRange(range) > [self.textStorage length])
+        {
+            return;
+        }
+        
         if (tooltip != nil)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
