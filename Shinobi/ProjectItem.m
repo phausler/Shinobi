@@ -32,6 +32,13 @@
 
 - (NSString *)absolutePath
 {
+    NSString *path = self.path;
+    
+    if ([path isAbsolutePath])
+    {
+        return path;
+    }
+    
     return [[self.project.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:self.path];
 }
 
