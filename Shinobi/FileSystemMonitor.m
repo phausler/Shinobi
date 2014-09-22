@@ -67,6 +67,12 @@ static void eventHandler(CFFileDescriptorRef descriptor, CFOptionFlags callBackT
             if (exists && isDir)
             {
                 FileSystemMonitor *monitor = [[FileSystemMonitor alloc] initWithPath:itemPath];
+                
+                if (monitor == nil)
+                {
+                    continue;
+                }
+                
                 monitor.delegate = self;
                 _contents[itemPath] = monitor;
             }
