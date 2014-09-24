@@ -493,7 +493,7 @@ public:
             
             ninja::BuildLog log;
             ninja::DepsLog *deps = new ninja::DepsLog();
-            ninja::ConsoleBuildStatus status(config);
+            BuildStatusReporter status(project);
             
             std::string buildDir = parser.GetBuildDirectory();
             
@@ -529,6 +529,7 @@ public:
                 return false;
             }
         }
+
         return true;
     }
 };
@@ -667,8 +668,10 @@ public:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         std::string err;
 
-        if (!project->build(self, &err)) {
-            NSLog(@"build failed: %s", err.c_str());
+        if (project->build(self, &err)) {
+            [self buildFinished];
+        } else {
+            [self buildFailed:[NSString stringWithUTF8String:err.c_str()]];
         }
     });
 }
@@ -680,12 +683,22 @@ public:
 
 - (void)startedBuildingNodes:(NSSet *)nodes progress:(BuildProgress)progress
 {
-    [self.buildDelegate buildProgressChanged:progress];
+    [self.buildDelegate buildProgressChanged:progress nodes:nodes];
 }
 
 - (void)finishedBuildingNodes:(NSSet *)nodes progress:(BuildProgress)progress
 {
     [self.buildDelegate buildProgressChanged:progress];
+}
+
+- (void)buildFailed:(NSString *)error
+{
+    [self.buildDelegate buildFailed:error];
+}
+
+- (void)buildFinished
+{
+    [self.buildDelegate buildFinished];
 }
 
 - (void)loadIfNeeded

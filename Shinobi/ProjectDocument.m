@@ -135,8 +135,44 @@
 
 - (void)buildProgressChanged:(BuildProgress)progress
 {
+    [self buildProgressChanged:progress nodes:nil];
+}
+
+- (void)buildProgressChanged:(BuildProgress)progress nodes:(NSSet *)nodes
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(clearStatus) object:nil];
+    });
+
+    if (nodes.count > 0)
+    {
+        self.status = [NSString stringWithFormat:@"Building %@", [[nodes anyObject] path]];
+    }
+    self.buildProgress.hidden = NO;
     [self.buildProgress setMaxValue:progress.total];
     [self.buildProgress setDoubleValue:progress.finished];
+}
+
+- (void)clearStatus
+{
+    self.status = @"";
+    self.buildProgress.hidden = YES;
+}
+
+- (void)buildFailed:(NSString *)reason
+{
+    self.status = [NSString stringWithFormat:@"Build failed: %@", reason];
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self performSelector:@selector(clearStatus) withObject:nil afterDelay:1.0];
+    });
+}
+
+- (void)buildFinished
+{
+    self.status = @"Build finished";
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [self performSelector:@selector(clearStatus) withObject:nil afterDelay:1.0];
+    });
 }
 
 - (void)reloadProject

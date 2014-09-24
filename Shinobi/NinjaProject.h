@@ -17,7 +17,11 @@ typedef struct {
 @required
 
 - (void)buildProgressChanged:(BuildProgress)progress;
+- (void)buildProgressChanged:(BuildProgress)progress nodes:(NSSet *)nodes;
 - (void)reloadProject;
+
+- (void)buildFailed:(NSString *)reason;
+- (void)buildFinished;
 
 @end
 
