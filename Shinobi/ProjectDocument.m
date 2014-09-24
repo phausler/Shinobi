@@ -184,6 +184,8 @@
     ProjectItem *item = (ProjectItem *)[self.projectOutline itemAtRow:[self.projectOutline selectedRow]];
     if ([item isKindOfClass:[NinjaNode class]])
     {
+        [[self.windowControllers[0] window] setRepresentedURL:[NSURL fileURLWithPath:item.absolutePath]];
+        [[self.windowControllers[0] window] setTitleWithRepresentedFilename:[item.path lastPathComponent]];
         [self.editorPath setPathComponentCells:[item pathControlCells]];
         self.editor.item = item;
     }
