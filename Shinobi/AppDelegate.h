@@ -10,6 +10,8 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+- (IBAction)build:(id)sender;
+- (IBAction)clean:(id)sender;
 
 @end
 

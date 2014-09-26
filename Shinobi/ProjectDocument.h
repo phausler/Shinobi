@@ -23,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet NSPanel *addNewFilePanel;
 
 - (IBAction)build:(id)sender;
+- (IBAction)clean:(id)sender;
 - (IBAction)dismissAddNewFile:(id)sender;
 - (IBAction)addNewFile:(id)sender;
 - (IBAction)addNewFilePrev:(id)sender;

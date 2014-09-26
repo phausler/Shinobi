@@ -259,6 +259,11 @@
     [self.rootItem build];
 }
 
+- (IBAction)clean:(id)sender
+{
+    [self.rootItem clean];
+}
+
 - (NSString *)status
 {
     return self.statusLabel.stringValue;

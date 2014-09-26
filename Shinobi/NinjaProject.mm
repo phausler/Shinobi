@@ -449,7 +449,8 @@ public:
         // remove all derived sources
         for (auto *edge : state.edges_)
         {
-            for (auto *output : edge->outputs_) {
+            for (auto *output : edge->outputs_)
+            {
                 paths.erase(output->path());
                 nodes.erase(output->path());
             }
@@ -480,6 +481,19 @@ public:
     bool IsPathDead(StringPiece s) const {
         ninja::Node* n = state.LookupNode(s);
         return (!n || !n->in_edge()) && diskInterface.Stat(s.AsString()) == 0;
+    }
+    
+    void clean(NinjaProject *project) {
+        for (auto *edge : state.edges_)
+        {
+            for (auto *output : edge->outputs_)
+            {
+                if (diskInterface.Stat(output->path()) > 0)
+                {
+                    diskInterface.RemoveFile(output->path());
+                }
+            }
+        }
     }
     
     bool build(NinjaProject *project, std::string *err) {
@@ -514,7 +528,8 @@ public:
             
             for (auto node : state.DefaultNodes(err))
             {
-                if (!builder.AddTarget(node, err)) {
+                if (!builder.AddTarget(node, err))
+                {
                     return false;
                 }
             }
@@ -673,6 +688,14 @@ public:
         } else {
             [self buildFailed:[NSString stringWithUTF8String:err.c_str()]];
         }
+    });
+}
+
+- (void)clean
+{
+    _NinjaProject *project = [self ninjaProject];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        project->clean(self);
     });
 }
 

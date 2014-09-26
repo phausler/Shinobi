@@ -34,5 +34,6 @@ typedef struct {
 
 - (instancetype)initWithPath:(NSString *)path;
 - (void)build;
+- (void)clean;
 
 @end
